@@ -8,9 +8,14 @@ require 'webmock/minitest'
 class Weathersummary
   include HTTParty
   base_uri "https://api.wunderground.com/api"
-  def initialize(zipcode, key)
-    @zipcode = zipcode
+  def initialize(key, zipcode)
     @key = key
+    @zipcode = zipcode
+  end
+
+
+  def current_conditions
+    self.class.get("/#{@key}/conditions/q/#{@zipcode}")
   end
 
 
@@ -20,16 +25,16 @@ class Weathersummary
 
 
   def sunrise_sunset
+    self.class.get("/#{@key}/astronomy/q/#{@zipcode}")
   end
 
-  def condition
+  def weather_alerts
+    self.class.get("/#{@key}/alerts/q/#{@zipcode}")
   end
 
-  def hurricanes
-  end
 
 
 
 
-  def perform_request
+
 #http://api.wunderground.com/api/06d952a02fe95bb3/conditions/q/CA/San_Francisco.json
